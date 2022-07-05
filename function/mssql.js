@@ -1,9 +1,9 @@
 const sql = require('mssql');
 const config = {
-  user: "",
-  password: "",
-  database: "",
-  server: '',
+  user: "PLC",
+  password: "P@ssw0rd",
+  database: "SAPData_BP_GAS",
+  server: '172.102.4.59',
   pool: {
     // max: 10,
     // min: 0,

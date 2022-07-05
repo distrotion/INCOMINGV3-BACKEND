@@ -2,6 +2,7 @@ const e = require("express");
 const express = require("express");
 const router = express.Router();
 let mongodb = require('../../function/mongodb');
+var mssqlREPORT = require('../../function/mssqlR');
 
 let DBNAME = "IncommingData_GAS12";
 let COLECTIONNAME = "main_data_GAS12";
@@ -131,24 +132,24 @@ router.post('/updateDataIncommingGOOD', async (req, res) => {
 
         if ((lastcheck[0]['Appearance for rust']['status'] === 'GOOD') && (lastcheck[0]['Appearance for scratch']['status'] === 'GOOD')) {
 
-            // request.post(
-            //     'http://tp-portal.thaiparker.co.th/API_QcReport/ZBAPI_getZPPIN006_IN_BP_GAS',
-            //     {
-            //         json: {
-            //             "PERNR_ID": "135026",
-            //             "AUARTID": "ZGB1",
-            //             "P_MATNR": `0000000000${input['MATNR']}`,
-            //             "P_CHARG": `${input['CHARG']}`,
-            //             "P_BWART": "321"
-            //         }
+            request.post(
+                'http://tp-portal.thaiparker.co.th/API_QcReport/ZBAPI_getZPPIN006_IN_BP_GAS',
+                {
+                    json: {
+                        "PERNR_ID": "135026",
+                        "AUARTID": "ZGB1",
+                        "P_MATNR": `0000000000${input['MATNR']}`,
+                        "P_CHARG": `${input['CHARG']}`,
+                        "P_BWART": "321"
+                    }
 
-            //     },
-            //     function (error, response, body) {
-            //         if (!error && response.statusCode == 200) {
-            //             console.log(body);
-            //         }
-            //     }
-            // );
+                },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log(body);
+                    }
+                }
+            );
             console.log('SEND TO SAP')
 
         }
@@ -271,10 +272,10 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
             if (data[0][ITEMsinw]['status'].toString() === 'WAIT') {
                 console.log(T1);
                 fq1 = `DELETE FROM [INCOMING-Report].[dbo].[BPGAS12] where T1='${T1}'`
-                // let SEPICstepFQ1 = await mssqlREPORT.qureyR(fq1);
+                let SEPICstepFQ1 = await mssqlREPORT.qureyR(fq1);
 
                 fq2 = `DELETE FROM [INCOMING-Report].[dbo].[BPGAS12IMG] where T1='${T1}'`
-                // let SEPICstepFQ2 = await mssqlREPORT.qureyR(fq2);
+                let SEPICstepFQ2 = await mssqlREPORT.qureyR(fq2);
 
                 F18 = data[0][ITEMsinw]['specialAccPiecesSelected'];
 
@@ -283,12 +284,12 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
                         VALUES 
                         ('${T1}','${F01}','${F02}','${F03}','${F04}','${F05}','${F06}','${F07}','${F08}','${F09}','${F10}','${F11}','${F12}','${F13}','${F14}','${F15}','${F16}','${F17}','${F18}')`;
 
-                // let SEPICstep01 = await mssqlREPORT.qureyR(query01);
+                let SEPICstep01 = await mssqlREPORT.qureyR(query01);
 
                 picqueryINS = `Insert Into [INCOMING-Report].[dbo].[BPGAS12IMG] (T1) VALUES
                         ('${T1}') `
 
-                // let SEPICstep02 = await mssqlREPORT.qureyR(picqueryINS);
+                let SEPICstep02 = await mssqlREPORT.qureyR(picqueryINS);
                 //specialAccPic01
 
 
@@ -301,7 +302,7 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
                         IMG05= '${data[0][ITEMsinw]['specialAccPic05']}'                            
                         where T1='${T1}' `
 
-                // let SEPICstep03 = await mssqlREPORT.qureyR(query02);
+                let SEPICstep03 = await mssqlREPORT.qureyR(query02);
 
             }
 
