@@ -14,9 +14,9 @@ router.post('/getINCOMING', async (req, res) => {
     console.log(req.body);
     let input = req.body;
     //-------------------------------------
-    let check = await mongodb.find(`PATTERN`, `PATTERN_01`, { "CP": input['MATNR'] });
+    let check = await mongodb.find(`PATTERN`, `PATTERN_01`, { "CP": parseInt(input['MATNR']).toString() });
     let ITEMs = await mongodb.find(`master_IC`, `ITEMs`, {});
-    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
+    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
 
    
 
@@ -53,8 +53,8 @@ router.post('/updateDataIncommingGOOD', async (req, res) => {
     //------------------------>>>
 
     // let output = await mongodb.find(DBNAME, COLECTIONNAME, { "CHARG": input['CHARG'] });
-    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
-    //{ $and: [ { MATNR: input['MATNR'] }, { CHARG: input['CHARG'] } ] }
+    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
+    //{ $and: [ { MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] } ] }
 
     output = [{ "status": "nok" }];
 
@@ -76,12 +76,12 @@ router.post('/updateDataIncommingGOOD', async (req, res) => {
         let updv = {};
         updv[ITEMsin] = datain;
 
-        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] }, { $set: updv });
+        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] }, { $set: updv });
         output = [{ "status": "ok" }];
 
     } else {
         let UpdateData = {
-            "MATNR": input['MATNR'],
+            "MATNR": parseInt(input['MATNR']).toString(),
             "CHARG": input['CHARG'],
             "MBLNR": input['MBLNR'],
             "BWART": input['BWART'],
@@ -118,14 +118,14 @@ router.post('/updateDataIncommingGOOD', async (req, res) => {
         let updv = {};
         updv[ITEMsin] = datain;
 
-        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] }, { $set: updv });
+        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] }, { $set: updv });
         output = [{ "status": "ok" }];
 
 
     }
 
 
-    let lastcheck = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
+    let lastcheck = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
 
 
     if (("Appearance for rust" in lastcheck[0]) && ("Appearance for scratch" in lastcheck[0])) {
@@ -138,7 +138,7 @@ router.post('/updateDataIncommingGOOD', async (req, res) => {
                     json: {
                         "PERNR_ID": "135026",
                         "AUARTID": "ZGB1",
-                        "P_MATNR": `0000000000${input['MATNR']}`,
+                        "P_MATNR": `0000000000${parseInt(input['MATNR']).toString()}`,
                         "P_CHARG": `${input['CHARG']}`,
                         "P_BWART": "321"
                     }
@@ -168,8 +168,8 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
     //------------------------>>>
 
     // let output = await mongodb.find(DBNAME, COLECTIONNAME, { "CHARG": input['CHARG'] });
-    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
-    //{ $and: [ { MATNR: input['MATNR'] }, { CHARG: input['CHARG'] } ] }
+    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
+    //{ $and: [ { MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] } ] }
 
     if (datadb.length > 0) {
 
@@ -189,14 +189,14 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
         let updv = {};
         updv[ITEMsin] = datain;
 
-        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] }, { $set: updv });
+        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] }, { $set: updv });
         output = [{ "status": "ok" }];
 
 
 
     } else {
         let UpdateData = {
-            "MATNR": input['MATNR'],
+            "MATNR": parseInt(input['MATNR']).toString(),
             "CHARG": input['CHARG'],
             "MBLNR": input['MBLNR'],
             "BWART": input['BWART'],
@@ -233,7 +233,7 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
         let updv = {};
         updv[ITEMsin] = datain;
 
-        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] }, { $set: updv });
+        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] }, { $set: updv });
         output = [{ "status": "ok" }];
 
 
@@ -243,7 +243,7 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
 
         let ITEMsinw = `${input['ITEM']}`;
 
-        let data = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
+        let data = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
         if (data.length > 0) {
             T1 = `${data[0]['MATNR']}-${data[0]['CHARG']}`;
             F01 = `${data[0]['MATNR']}`;
@@ -324,8 +324,8 @@ router.post('/updateDataIncommingGOOD_NA', async (req, res) => {
     //------------------------>>>
 
     // let output = await mongodb.find(DBNAME, COLECTIONNAME, { "CHARG": input['CHARG'] });
-    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
-    //{ $and: [ { MATNR: input['MATNR'] }, { CHARG: input['CHARG'] } ] }
+    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
+    //{ $and: [ { MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] } ] }
     output = [{ "status": "nok" }];
     
     if (datadb.length > 0) {
@@ -348,7 +348,7 @@ router.post('/updateDataIncommingGOOD_NA', async (req, res) => {
         let updv = {};
         updv[ITEMsin] = datain;
 
-        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] }, { $set: updv });
+        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] }, { $set: updv });
         output = [{ "status": "ok" }];
 
 
@@ -357,7 +357,7 @@ router.post('/updateDataIncommingGOOD_NA', async (req, res) => {
 
    
 
-    let lastcheck = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
+    let lastcheck = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
 
 
     if (("Appearance for rust" in lastcheck[0]) && ("Appearance for scratch" in lastcheck[0])) {
@@ -370,7 +370,7 @@ router.post('/updateDataIncommingGOOD_NA', async (req, res) => {
             //         json: {
             //             "PERNR_ID": "135026",
             //             "AUARTID": "ZGB1",
-            //             "P_MATNR": `0000000000${input['MATNR']}`,
+            //             "P_MATNR": `0000000000${parseInt(input['MATNR']).toString()}`,
             //             "P_CHARG": `${input['CHARG']}`,
             //             "P_BWART": "321"
             //         }
@@ -400,8 +400,8 @@ router.post('/updateDataIncommingNOGOOD', async (req, res) => {
     //------------------------>>>
 
     // let output = await mongodb.find(DBNAME, COLECTIONNAME, { "CHARG": input['CHARG'] });
-    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
-    //{ $and: [ { MATNR: input['MATNR'] }, { CHARG: input['CHARG'] } ] }
+    let datadb = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
+    //{ $and: [ { MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] } ] }
     output = [{ "status": "nok" }];
     if (datadb.length > 0) {
 
@@ -421,7 +421,7 @@ router.post('/updateDataIncommingNOGOOD', async (req, res) => {
         let updv = {};
         updv[ITEMsin] = datain;
 
-        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] }, { $set: updv });
+        let upd = await mongodb.update(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] }, { $set: updv });
         output = [{ "status": "ok" }];
 
 
@@ -430,7 +430,7 @@ router.post('/updateDataIncommingNOGOOD', async (req, res) => {
 
    
 
-    let lastcheck = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: input['MATNR'] }, { CHARG: input['CHARG'] }] });
+    let lastcheck = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
 
 
     if (("Appearance for rust" in lastcheck[0]) && ("Appearance for scratch" in lastcheck[0])) {
@@ -443,7 +443,7 @@ router.post('/updateDataIncommingNOGOOD', async (req, res) => {
             //         json: {
             //             "PERNR_ID": "135026",
             //             "AUARTID": "ZGB1",
-            //             "P_MATNR": `0000000000${input['MATNR']}`,
+            //             "P_MATNR": `0000000000${parseInt(input['MATNR']).toString()}`,
             //             "P_CHARG": `${input['CHARG']}`,
             //             "P_BWART": "321"
             //         }

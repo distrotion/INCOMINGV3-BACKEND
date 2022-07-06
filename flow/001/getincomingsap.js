@@ -1,10 +1,10 @@
 const express = require("express");
 var axios = require('axios');
 const router = express.Router();
-var mssql = require('./../../function/mssql');
+// var mssql = require('./../../function/mssql');
 var mongodb = require('./../../function/mongodb');
 var mongodbMAIN = require('./../../function/mongodbMAIN');
-var mssqlREPORT = require('../../function/mssqlR');
+// var mssqlREPORT = require('../../function/mssqlR');
 
 
 let DBNAME = "IncommingData_GAS12";
@@ -42,6 +42,7 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
     // console.log(req.body);
     let input = req.body;
     //--------------------------------->
+    // output = {};
 
     // let querystring = `SELECT  *
     // FROM [SAPData_BP_GAS].[dbo].[tblSAPGoodReceive] `;
@@ -73,7 +74,7 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
     for (i = 0, l = sl.length; i < l; i++) {
         var unique = true;
         for (j = 0; j < output_data_fil_uni.length; j++) {
-            if ((output_data[i]['MATNR'] === output_data_fil_uni[j]['MATNR']) && (output_data[i]['CHARG'] === output_data_fil_uni[j]['CHARG'])) {
+            if ((parseInt(output_data[i]['MATNR']).toString() === parseInt(output_data_fil_uni[j]['MATNR']).toString()) && (output_data[i]['CHARG'] === output_data_fil_uni[j]['CHARG'])) {
                 unique = false;
             }
         }
@@ -87,7 +88,7 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
     for (i = 0, l = output_data_fil_uni.length; i < l; i++) {
         var unique = true;
         for (j = 0; j < output_data_fil_NOuni.length; j++) {
-            if ((output_data_fil_uni[i]['MATNR'] === output_data_fil_NOuni[j]['MATNR']) && (output_data_fil_uni[i]['CHARG'] === output_data_fil_NOuni[j]['CHARG'])) {
+            if ((parseInt(output_data_fil_uni[i]['MATNR']).toString() === parseInt(output_data_fil_NOuni[j]['MATNR']).toString()) && (output_data_fil_uni[i]['CHARG'] === output_data_fil_NOuni[j]['CHARG'])) {
                 if ((output_data_fil_uni[i]['BWART'] === '504') || (output_data_fil_NOuni[j]['BWART'] === '504')) {
                     console.log(output_data_fil_uni[i]['MATNR']);
                     unique = false;
@@ -118,7 +119,7 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
         for (i = 0; i < output_data.length; i++) {
             indata = [];
             for (j = 0; j < data.length; j++) {
-                if ((data[j]["MATNR"].toString() === output_data[i]["MATNR"].toString()) && (data[j]["CHARG"].toString() === output_data[i]["CHARG"].toString())) {
+                if ((parseInt(data[j]["MATNR"]).toString() === parseInt(output_data[i]["MATNR"]).toString()) && (data[j]["CHARG"].toString() === output_data[i]["CHARG"].toString())) {
                     indata[0] = data[j];
 
                 }
@@ -178,7 +179,7 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
     for (i = 0; i < output_data_kj.length; i++) {
         let have = '';
         for (j = 0; j < querypostdata.length; j++) {
-            if ((output_data_kj[i]['MATNR'] === querypostdata[j]['MATNR']) && (output_data_kj[i]['CHARG'] === querypostdata[j]['CHARG'])) {
+            if ((parseInt(output_data_kj[i]['MATNR']).toString() === parseInt(querypostdata[j]['MATNR']).toString()) && (output_data_kj[i]['CHARG'] === querypostdata[j]['CHARG'])) {
                 have = 'ok'
                 break;
             }
