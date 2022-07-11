@@ -64,7 +64,7 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
     let output_dataBuffer = query[0]['data']
     if(output_dataBuffer.length >0){
         for(i=0 ;i<output_dataBuffer.length;i++){
-            output_dataBuffer[i]['MATNR'] = parseInt(output_data[i]['MATNR']).toString();
+            output_dataBuffer[i]['MATNR'] = parseInt(output_dataBuffer[i]['MATNR']).toString();
         }
     }
     
