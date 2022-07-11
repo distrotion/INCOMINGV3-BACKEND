@@ -50,7 +50,7 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
 
     let query = await mongodbMAIN.find("SAPincoming", "tblSAPGoodReceive", { $and: [{ "Plant": "BP12GAS" }] });
 
-    let queryposting = `SELECT  * FROM [SAPData_BP_GAS].[dbo].[tblSAPPostIncoming]`;
+    // let queryposting = `SELECT  * FROM [SAPData_BP_GAS].[dbo].[tblSAPPostIncoming]`;
 
     // let querypost = await mssql.qurey(queryposting);
     // let querypostdata = querypost[`recordsets`][0]
@@ -58,12 +58,21 @@ router.post('/tblSAPGoodReceive_get', async (req, res) => {
     let querypostdata = querypost[0]['data'];
     // return res.json(querypostdata);
 
-    //---------------------------------------->
+    
 
     // let data
-    let output_data = query[0]['data']
+    let output_dataBuffer = query[0]['data']
+    if(output_dataBuffer.length >0){
+        for(i=0 ;i<output_dataBuffer.length;i++){
+            output_dataBuffer[i]['MATNR'] = parseInt(output_data[i]['MATNR']).toString();
+        }
+    }
+    
+    let output_data = output_dataBuffer
     // let data = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [ { MATNR: output_data[0]['MATNR'] }, { CHARG: output_data[0]['CHARG'] } ] });
 
+
+    //---------------------------------------->
 
     let output_data_fil = [];
     let output_data_fil_uni = [];
