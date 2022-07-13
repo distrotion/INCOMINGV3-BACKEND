@@ -264,6 +264,20 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
             F16 = `${data[0]['STATUS']}`;
             // F17 = `${data[0]['UserNO']}`;
             F17 = `Thitaree`;
+            F20 = ``;
+
+            if(data[0][`Appearance for rust`] !== undefined){
+                //
+                if(data[0][`Appearance for rust`][`specialAccCOMMENT`] !== ''){
+                    F20 = data[0][`Appearance for rust`][`specialAccCOMMENT`];
+                }
+            }else if(data[0][`Appearance for scratch`] !== undefined){
+                //
+                if(data[0][`Appearance for scratch`][`specialAccCOMMENT`] !== ''){
+                    F20 = data[0][`Appearance for scratch`][`specialAccCOMMENT`];
+                }
+
+            }
 
             query = ``;
 
@@ -280,9 +294,9 @@ router.post('/updateDataIncommingWAIT', async (req, res) => {
                 F18 = data[0][ITEMsinw]['specialAccPiecesSelected'];
 
                 query01 = `INSERT INTO [INCOMING-Report].[dbo].[BPGAS12] (
-                        T1,F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F11,F12,F13,F14,F15,F16,F17,F18) 
+                        T1,F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F11,F12,F13,F14,F15,F16,F17,F18,F20) 
                         VALUES 
-                        ('${T1}','${F01}','${F02}','${F03}','${F04}','${F05}','${F06}','${F07}','${F08}','${F09}','${F10}','${F11}','${F12}','${F13}','${F14}','${F15}','${F16}','${F17}','${F18}')`;
+                        ('${T1}','${F01}','${F02}','${F03}','${F04}','${F05}','${F06}','${F07}','${F08}','${F09}','${F10}','${F11}','${F12}','${F13}','${F14}','${F15}','${F16}','${F17}','${F18}','${F20}')`;
 
                 let SEPICstep01 = await mssqlREPORT.qureyR(query01);
 
