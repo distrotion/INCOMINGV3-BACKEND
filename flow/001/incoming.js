@@ -554,24 +554,24 @@ router.post('/updateDataIncommingNOGOOD', async (req, res) => {
 
         if ((lastcheck[0]['Appearance for rust']['status'] === 'GOOD') && (lastcheck[0]['Appearance for scratch']['status'] === 'GOOD')) {
 
-            // request.post(
-            //     'http://tp-portal.thaiparker.co.th/API_QcReport/ZBAPI_getZPPIN006_IN_BP_GAS',
-            //     {
-            //         json: {
-            //             "PERNR_ID": "135026",
-            //             "AUARTID": "ZGB1",
-            //             "P_MATNR": `0000000000${parseInt(input['MATNR']).toString()}`,
-            //             "P_CHARG": `${input['CHARG']}`,
-            //             "P_BWART": "321"
-            //         }
+            request.post(
+                'http://tp-portal.thaiparker.co.th/API_QcReport/ZBAPI_getZPPIN006_IN_BP_GAS',
+                {
+                    json: {
+                        "PERNR_ID": "135026",
+                        "AUARTID": "ZGB1",
+                        "P_MATNR": `0000000000${parseInt(input['MATNR']).toString()}`,
+                        "P_CHARG": `${input['CHARG']}`,
+                        "P_BWART": "321"
+                    }
 
-            //     },
-            //     function (error, response, body) {
-            //         if (!error && response.statusCode == 200) {
-            //             console.log(body);
-            //         }
-            //     }
-            // );
+                },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log(body);
+                    }
+                }
+            );
             console.log('SEND TO SAP')
 
         }
