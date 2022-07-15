@@ -652,10 +652,10 @@ router.post('/re-report', async (req, res) => {
 
                 let SEPICstep01 = await mssqlREPORT.qureyR(query01);
 
-                picqueryINS = `Insert Into [INCOMING-Report].[dbo].[BPGAS12IMG] (T1) VALUES
-                        ('${T1}') `
+                // picqueryINS = `Insert Into [INCOMING-Report].[dbo].[BPGAS12IMG] (T1) VALUES
+                //         ('${T1}') `
 
-                let SEPICstep02 = await mssqlREPORT.qureyR(picqueryINS);
+                // let SEPICstep02 = await mssqlREPORT.qureyR(picqueryINS);
                 //specialAccPic01
 
 
@@ -665,7 +665,7 @@ router.post('/re-report', async (req, res) => {
        
         }
 
-    return res.json(output)
+    return res.json("output")
 });
 
 
