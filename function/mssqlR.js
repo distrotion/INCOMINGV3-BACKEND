@@ -4,7 +4,7 @@ const config = {
   password: "@utomation",
   // user: "sa",
   // password: "@utomatic99",
-  database: "SAR",
+  database: "INCOMING-Report",
   server: '172.20.30.46',
   // server: '172.23.10.51',
   pool: {
