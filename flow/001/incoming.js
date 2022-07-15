@@ -585,7 +585,96 @@ router.post('/updateDataIncommingNOGOOD', async (req, res) => {
     res.json(output)
 });
 
+router.post('/re-report', async (req, res) => {
 
+    // console.log(req.body);
+    let input = req.body;
+    //------------------------>>>
+
+    let ITEMsinw = `${input['ITEM']}`;
+
+        let data = await mongodb.find(DBNAME, COLECTIONNAME, { $and: [{ MATNR: parseInt(input['MATNR']).toString() }, { CHARG: input['CHARG'] }] });
+        if (data.length > 0) {
+            T1 = `${data[0]['MATNR']}-${data[0]['CHARG']}`;
+            F01 = `${data[0]['MATNR']}`;
+            F02 = `${data[0]['CHARG']}`;
+            F03 = `${data[0]['MBLNR']}`;
+            F04 = `${data[0]['BWART']}`;
+            F05 = `${data[0]['MENGE']}`;
+            F06 = `${data[0]['MEINS']}`;
+            F07 = `${data[0]['MAT_FG']}`;
+            F08 = `${data[0]['KUNNR']}`;
+            F09 = `${data[0]['SORTL']}`;
+            F10 = `${data[0]['NAME1']}`;
+            F11 = `${data[0]['CUST_LOT']}`;
+            F12 = `${data[0]['PART_NM']}`;
+            F13 = `${data[0]['PART_NO']}`;
+            F14 = `${data[0]['PROCESS']}`;
+            F15 = `${data[0]['OLDMAT_CP']}`;
+            F16 = `${data[0]['STATUS']}`;
+            // F17 = `${data[0]['UserNO']}`;
+            F17 = `Thitaree`;
+            F20 = ``;
+            F21 = `Plengpin`;
+            F22 = `Chanakan`;
+
+            if (data[0][`Appearance for rust`] !== undefined) {
+                //
+                if (data[0][`Appearance for rust`][`specialAccCOMMENT`] !== '') {
+                    F20 = data[0][`Appearance for rust`][`specialAccCOMMENT`];
+                }
+            } else if (data[0][`Appearance for scratch`] !== undefined) {
+                //
+                if (data[0][`Appearance for scratch`][`specialAccCOMMENT`] !== '') {
+                    F20 = data[0][`Appearance for scratch`][`specialAccCOMMENT`];
+                }
+
+            }
+
+            query = ``;
+
+
+
+            if (data[0][ITEMsinw]['status'].toString() === 'WAIT') {
+                console.log(T1);
+                fq1 = `DELETE FROM [INCOMING-Report].[dbo].[BPGAS12] where T1='${T1}'`
+                let SEPICstepFQ1 = await mssqlREPORT.qureyR(fq1);
+
+                fq2 = `DELETE FROM [INCOMING-Report].[dbo].[BPGAS12IMG] where T1='${T1}'`
+                let SEPICstepFQ2 = await mssqlREPORT.qureyR(fq2);
+
+                F18 = data[0][ITEMsinw]['specialAccPiecesSelected'];
+
+                query01 = `INSERT INTO [INCOMING-Report].[dbo].[BPGAS12] (
+                        T1,F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F11,F12,F13,F14,F15,F16,F17,F18,F20,F21,F22) 
+                        VALUES 
+                        ('${T1}','${F01}','${F02}','${F03}','${F04}','${F05}','${F06}','${F07}','${F08}','${F09}','${F10}','${F11}','${F12}','${F13}','${F14}','${F15}','${F16}','${F17}','${F18}','${F20}','${F21}','${F22}')`;
+
+                let SEPICstep01 = await mssqlREPORT.qureyR(query01);
+
+                picqueryINS = `Insert Into [INCOMING-Report].[dbo].[BPGAS12IMG] (T1) VALUES
+                        ('${T1}') `
+
+                let SEPICstep02 = await mssqlREPORT.qureyR(picqueryINS);
+                //specialAccPic01
+
+
+
+                query02 = ` update [INCOMING-Report].[dbo].[BPGAS12IMG]  set 
+                        IMG01= '${data[0][ITEMsinw]['specialAccPic01']}',
+                        IMG02= '${data[0][ITEMsinw]['specialAccPic02']}',
+                        IMG03= '${data[0][ITEMsinw]['specialAccPic03']}',
+                        IMG04= '${data[0][ITEMsinw]['specialAccPic04']}',
+                        IMG05= '${data[0][ITEMsinw]['specialAccPic05']}'                            
+                        where T1='${T1}' `
+
+                let SEPICstep03 = await mssqlREPORT.qureyR(query02);
+
+            }
+        }
+
+    res.json(output)
+});
 
 
 module.exports = router;
